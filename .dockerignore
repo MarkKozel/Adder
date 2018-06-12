@@ -1,0 +1,10 @@
+node_modules
+package-lock.json
+*.code_workspace
+.vscode
+.gitignore
+api-client.js
+client-web.js
+clientAPI.js
+client-cli.js
+echo.html
