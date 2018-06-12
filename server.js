@@ -1,7 +1,7 @@
 var WebSocketServer = require('ws').Server
 
 // Create an instance of websocket server.
-var wss = new WebSocketServer({ host: 'localhost', port: 3123 });
+var wss = new WebSocketServer({ port: 3123 });
 
 let getTime = function() {
     var now = new Date();

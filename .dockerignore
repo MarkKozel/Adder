@@ -1,10 +1,9 @@
 node_modules
 package-lock.json
-*.code_workspace
+*.code-workspace
 .vscode
 .gitignore
 api-client.js
 client-web.js
 clientAPI.js
-client-cli.js
 echo.html
