@@ -1,0 +1,22 @@
+{
+    "name": "echo",
+    "version": "1.0.0",
+    "description": "http://blog.codebender.cc/2015/11/30/asynchronous-server-client-communication-with-websockets-and-node-js/",
+    "main": "server.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/MarkKozel/Adder.git"
+    },
+    "dependencies": {
+        "ws": "^5.2.0"
+    },
+    "devDependencies": {
+        "jest": "^22.4.4",
+        "readline-sync": "^1.4.9"
+    },
+    "scripts": {
+        "test": "jest"
+    },
+    "author": "",
+    "license": "ISC"
+}
