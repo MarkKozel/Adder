@@ -1,5 +1,5 @@
-var WebSocket = require('ws');
-const readline = require('readline-sync');
+// var WebSocket = require('ws');
+// const readline = require('readline-sync');
 
 // Function that helps us log message to the screen.
 function log(msg) {
@@ -9,7 +9,7 @@ function log(msg) {
 
 // Setup websocket with callbacks.
 // Open the connection with the server.
-var ws = new WebSocket('ws://172.28.115.221:3123/');
+var ws = new WebSocket('ws://192.168.99.100:3123/');
 
 // Log a message when connection is successful.
 ws.onopen = function() {

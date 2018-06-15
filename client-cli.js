@@ -42,13 +42,4 @@ ws.onclose = function() {
 // Log a message when connection is successful.
 ws.onopen = function() {
     log(`Connected to server with ${ws.protocol} connection`);
-
-    // while (ws.readyState === ws.OPEN) {
-    //     var msgSend = readline.question("Enter info (ctrl-c to end) ");
-    //     if (msgSend !== -9) {
-    //         ws.send(msgSend);
-    //     } else {
-    //         ws.close();
-    //     }
-    // }
 };
