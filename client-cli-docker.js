@@ -8,7 +8,8 @@ function log(msg) {
 
 // Setup websocket with callbacks.
 // Open the connection with the server.
-var ws = new WebSocket('ws://192.168.99.100:3123/');
+//var ws = new WebSocket('ws://192.168.99.100:3123/');
+var ws = new WebSocket('ws://192.168.170.249:3123/');
 
 process.on('SIGINT', () => {
     console.log("Rec'd CTRL-C, closing connection");
