@@ -1,9 +1,11 @@
-var WebSocketServer = require('ws').Server
+const WebSocketServer = require('ws').Server
+const { createServer } = require('http');
+const PORT = 3123;
 
-// Create an instance of websocket server.
-var wss = new WebSocketServer({ port: 3123 });
+let server = createServer();
+let wss = new WebSocketServer({ server });// Create an instance of websocket server
 
-let getTime = function() {
+let getTime = function () {
     var now = new Date();
     return now;
 }
@@ -13,7 +15,7 @@ let currentAddStep = 0; //1=start, 2=got op, 3=1st num, 4=2nd num
 let currentOp = ''; //+,-,*,/
 let firstVal = 0; //first number for operation
 let secondVal = 0; //second number for operation
-let math = function(input) {
+let math = function (input) {
     if (input === 'stop') { //Exit in the middle
         //reset all containers
         currentAddStep = 0;
@@ -23,7 +25,7 @@ let math = function(input) {
         return 'math action stopped';
     }
 
-    if (currentAddStep === 0) { //start a math routine...request the operator
+    if (input === 'math' && currentAddStep === 0) { //start a math routine...request the operator
         currentAddStep++;
         return "enter operator (+,-,*,/) or 'stop' to exit math routine";
     }
@@ -68,44 +70,57 @@ let math = function(input) {
 }
 
 console.log('New server created, waiting for connections...');
-// Add the connection listener that will be triggered once the connection is etablished.
+// Add the connection listener that will be triggered once the connection is established.
+wss.on('close', () => {
+    console.info('wss closed');
+});
 
-wss.on('connection', function(ws) {
+wss.on('connection', function (ws) {
     console.log('Server was connected.');
-    //  Add the listener for that particular websocket connection instance.
-    ws.on('message', function(message) {
-        console.log('Server received message: %s', message);
-        var response = '';
-        // Send back the message that we receive from the browser
 
-        message = message.replace(/(\n|\r)+$/, '');
-        response = message;
+    ws.on('error', err => {
+        console.error(err);
+    })
+
+    ws.on('open', data => {
+        console.error(data);
+    })
+    //  Add the listener for that particular websocket connection instance.
+    ws.on('message', function (message) {
+        console.log('Server received message: %s', message);
+
+
+        let msg = message.toString().replace(/(\n|\r|\r\n)/g, '');
 
         if (currentAddStep > 0) {
-            response = math(message);
+            response = math(msg);
         }
 
-        if (message === "hi" && currentAddStep === 0) {
+        if (msg === "hi" && currentAddStep === 0) {
             response = 'Well, hello there';
         }
 
-        if (message === "bye" && currentAddStep === 0) {
+        if (msg === "bye" && currentAddStep === 0) {
             response = 'Buh bye';
         }
 
-        if (message === "goodbye" && currentAddStep === 0) {
+        if (msg === "goodbye" && currentAddStep === 0) {
             response = 'See ya';
         }
 
-        if (message === 'time' && currentAddStep === 0) {
+        if (msg === 'time' && currentAddStep === 0) {
             var now = getTime().toString();
             response = now;
         }
 
-        if (message === 'math') {
-            response = math();
+        if (msg === 'math') {
+            response = math(msg);
         }
 
         ws.send(response);
     });
 });
+
+server.listen(PORT, res => {
+    console.log(`Started Adder Server on port ${PORT}`);
+})

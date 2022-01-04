@@ -4,10 +4,11 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "test": "jest",
-        "start": "node server.js"
+        "start": "node server.js",
+        "devServer": "nodemon --ignore 'client*.js' server.js"
     },
     "dependencies": {
+        "readline-sync": "^1.4.10",
         "ws": "latest"
     },
     "repository": {

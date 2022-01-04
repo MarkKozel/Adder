@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://bootswatch.com/4/cerulean/bootstrap.min.css">
+    <title>Websocket test page</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto text-center bg-primary mt-2 p-2 rounded">
+                <h1 class="display-4">Perform Sum Operation</h1>
+                <p class="lead" style="color:black;">The easiest way to add two numbers</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 mx-auto text-left bg-secondary mt-1 p-1 rounded">
+                <i>Instructions:</i> <br>Enter the word 'sum' (without quotes), then click send
+                <br>Next, enter a number and click send
+                <br>Finally, enter another number and click send.
+                <br>Enjoy your sum result
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <input id="entry">
+    <button id="send">Send</button>
+    <pre id="log"></pre>
+    <script>
+        // Function that helps us log message to the screen.
+        function log(msg) {
+            document.getElementById('log').innerText += msg + '\n';
+            console.log(msg);
+        }
+
+        // Setup websocket with callbacks.
+        // Open the connection with the server.
+        var ws = new WebSocket('ws://localhost:9000/');
+
+        // Log a message when connection is successful.
+        ws.onopen = function() {
+            log('Connected to server');
+        };
+
+        // Waiting for user input.
+        document.getElementById('send').onclick = function() {
+            var msgSend = document.getElementById('entry').value;
+            log("Browser sends: " + msgSend);
+            //Once user's input is received, we send it to the server.
+            ws.send(msgSend);
+        }
+
+        // When a message from server is received, we display it on the screen.
+        ws.onmessage = function(evt) {
+            var msgReceived = evt.data;
+            log("Websocket server responds: " + msgReceived);
+        }
+
+        // As soon as the connection is closed, we inform the user.
+        ws.onclose = function() {
+            log('Disconnected from server');
+        };
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js" integrity="sha384-lZmvU/TzxoIQIOD9yQDEpvxp6wEU32Fy0ckUgOH4EIlMOCdR823rg4+3gWRwnX1M" crossorigin="anonymous"></script>
+</body>
+
+</html>
